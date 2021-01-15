@@ -1,2 +1,23 @@
 <!--pages/dininglist/dininglist.wxml-->
-<text>pages/dininglist/dininglist.wxml</text>
+<view class="cu-bar bg-white solid-bottom margin-top">
+    <view class="action">
+      <text class="cuIcon-title text-orange "></text> Restaurant List
+    </view>
+  </view>
+  <view class="cu-list menu-avatar">
+    <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{qualities}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove = "ListTouchMove" bindtouchend = "ListTouchEnd" bindtap = "ListTap" data-target="{{item.id}}">
+      <view class="cu-avatar round lg" style="background-image:url({{item.pic}});"></view>
+      <view class="content">
+        <view class="text-grey">{{item.name}}</view>
+        <view class="text-gray text-sm">
+          <text class="cuIcon-locationfill text-blue"></text>{{item.location}}</view>
+      </view>
+      <view class="action">
+        <view class="cu-tag round bg-grey sm">{{item.status}}</view>
+      </view>
+      <view class="move">
+        <view class="bg-grey">Stick</view>
+        <view class="bg-red">Delete</view>
+      </view>
+    </view>
+  </view>

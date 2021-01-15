@@ -1,15 +1,17 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/logs/logs",
     "pages/dininglist/dininglist",
-    "pages/queue/queue"
+    "pages/queue/queue",
+    "pages/history/history",
+    "pages/restaurantinfo/restaurant"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "排队叫号系统",
-    "navigationBarTextStyle":"black"
+    "navigationBarTitleText": "EC GO",
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#dddddd",
@@ -21,19 +23,19 @@
         "pagePath": "pages/dininglist/dininglist",
         "iconPath": "image/wechat.png",
         "selectedIconPath": "image/wechatHL.png",
-        "text": "餐厅"
+        "text": "Restaurant"
       },
       {
         "pagePath": "pages/index/index",
         "iconPath": "image/wechat.png",
         "selectedIconPath": "image/wechatHL.png",
-        "text": "排队"
+        "text": "Main"
       },
       {
-        "pagePath": "pages/queue/queue",
+        "pagePath": "pages/history/history",
         "iconPath": "image/wechat.png",
         "selectedIconPath": "image/wechatHL.png",
-        "text": "个人"
+        "text": "History"
       }
     ]
   },

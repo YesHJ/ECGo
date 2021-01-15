@@ -968,6 +968,12 @@ button.icon.lg {
 	font-size: 2.5em;
 }
 
+.cu-avatar.xxl {
+	width: 256rpx;
+	height: 256rpx;
+	font-size: 3.0em;
+}
+
 .cu-avatar .avatar-text {
 	font-size: 0.4em;
 }
@@ -2370,7 +2376,7 @@ button.icon.lg {
 .cu-form-group .title {
 	text-align: justify;
 	padding-right: 30rpx;
-	font-size: 30rpx;
+	font-size: 20rpx;
 	position: relative;
 	height: 60rpx;
 	line-height: 60rpx;
@@ -2414,7 +2420,7 @@ button.icon.lg {
 
 .cu-form-group picker .picker {
 	line-height: 100rpx;
-	font-size: 28rpx;
+	font-size: 18rpx;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
@@ -2705,7 +2711,7 @@ scroll-view.cu-steps .cu-item {
 .cu-steps .cu-item [class*="cuIcon-"],
 .cu-steps .cu-item .num {
 	display: block;
-	font-size: 40rpx;
+	font-size: 18rpx;
 	line-height: 80rpx;
 }
 

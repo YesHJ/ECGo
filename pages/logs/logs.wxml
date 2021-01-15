@@ -1,6 +1,16 @@
 <!--logs.wxml-->
-<view class="container log-list">
-  <block wx:for="{{logs}}" wx:for-item="log">
-    <text class="log-item">{{index + 1}}. {{log}}</text>
-  </block>
+<view class="bg-white padding radius text-center light">
+    <view class="flex solid-bottom padding justify-center">
+        <view class="cu-avatar xxl round margin-left bg-red">14</view>
+    </view>
+    <view class="solid-bottom text-xs padding">
+        <text class="text-gray">QUEUING INFORMATION IS BEING OBTAINED\n\n</text>
+        <text class="text-gray">THE RESTAURANT WILL REMIND YOU BY MSG</text>
+      </view>
+</view>
+
+<view class="margin flex">
+  <view class="bg-white flex-sub radius shadow-lg">
+    <image src="https://image.weilanwl.com/gif/loading-white.gif" mode="aspectFit" class="gif-white response" style="height:240rpx"></image>
+  </view>
 </view>

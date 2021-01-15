@@ -1,0 +1,13 @@
+<!--pages/history/history.wxml-->
+<view class="cu-timeline" wx:for = "{{historyinfo}}">
+  <view class="cu-time">{{item.date}}</view>
+  <view class="cu-item">
+    <view class="content">
+      <view class="cu-capsule radius">
+        <view class="cu-tag bg-cyan">{{item.location}}</view>
+        <view class="cu-tag line-cyan">{{item.time}}</view>
+      </view>
+      <view class="margin-top">{{item.msg}}</view>
+    </view>
+  </view>
+</view>
