@@ -1,18 +1,45 @@
 // pages/restaurantinfo/restaurant.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    name:"",
+    location:"",
+    phone:"",
+    status:"",
+    pic:"",
+    tag:[],
+    isOpen:false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("Here is ",options.obj)
+    let temp = app.globalData.resInfo
+    let opt = temp[options.id]
+    let uistatus = false
+    if(opt.status=="Opened")
+    {
+      uistatus = true
+    }
+    else
+    {
+      uistatus = false
+    }
+
+    this.setData({
+      name: opt.name,
+      location: opt.location,
+      phone: opt.phone,
+      status: opt.status,
+      pic: opt.pic,
+      tag: opt.tag,
+      isOpen: uistatus,
+    })
   },
 
   /**
@@ -62,5 +89,17 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  onCall: function(){
+    wx.makePhoneCall({
+      phoneNumber: this.data.phone,
+    })
+  },
+
+  queuegoto: function(){
+    wx.navigateTo({
+      url: '../logs/logs'
+    })
   }
 })

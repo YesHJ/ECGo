@@ -1,2 +1,51 @@
 <!--pages/restaurantinfo/restaurant.wxml-->
-<text>pages/restaurantinfo/restaurant.wxml</text>
+<view class="padding text-center">
+  <view class="padding-xxl shadow-blur bg-red margin-top bg-img" style="background-image:url({{pic}});">
+    <view>{{name}}</view>
+  </view>
+</view>
+<view class="cu-list menu card-menu margin-top">
+    <view class="cu-item">
+      <button class="cu-btn content" open-type="contact">
+        <text class="cuIcon-btn text-olive"></text>
+        <text class="text-grey">{{location}}</text>
+      </button>
+    </view>
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-btn text-green"></text>
+        <text class="text-grey">{{phone}}</text>
+      </view>
+      <view class="action">
+        <button class="cu-btn ssm round bg-green shadow" bindtap="onCall">
+          <text class="cuIcon-phone"></text></button>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-tagfill text-red"></text>
+        <text class="text-grey">Tag</text>
+      </view>
+      <view class="action">
+        <view class="cu-tag round bg-orange light">音乐</view>
+        <view class="cu-tag round bg-olive light">电影</view>
+        <view class="cu-tag round bg-blue light">旅行</view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-infofill text-red"></text>
+        <text class="text-grey">Status</text>
+      </view>
+      <view class="action" wx:if="{{isOpen}}">
+        <view class="cu-tag round bg-blue light">{{status}}</view>
+      </view>
+      <view class="action" wx:else>
+        <view class="cu-tag round bg-red light">{{status}}</view>
+      </view>
+    </view>
+  </view>
+<view class="flex solid-bottom padding justify-center" style="position:fixed;bottom:0; width: 750rpx;">
+  <button class="cu-btn line-green center round lg shadow" bindtap="queuegoto">
+          <text class="text-grey">Join This Queue</text></button>
+</view>

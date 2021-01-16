@@ -5,7 +5,7 @@
     </view>
   </view>
   <view class="cu-list menu-avatar">
-    <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{qualities}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove = "ListTouchMove" bindtouchend = "ListTouchEnd" bindtap = "ListTap" data-target="{{item.id}}">
+    <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{qualities}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove = "ListTouchMove" bindtouchend = "ListTouchEnd" bindtap = "ListTap" data-target="{{item}}">
       <view class="cu-avatar round lg" style="background-image:url({{item.pic}});"></view>
       <view class="content">
         <view class="text-grey">{{item.name}}</view>
@@ -16,8 +16,7 @@
         <view class="cu-tag round bg-grey sm">{{item.status}}</view>
       </view>
       <view class="move">
-        <view class="bg-grey">Stick</view>
-        <view class="bg-red">Delete</view>
+        <view class="bg-red">Stick</view>
       </view>
     </view>
   </view>

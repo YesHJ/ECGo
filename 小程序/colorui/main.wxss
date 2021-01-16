@@ -744,6 +744,15 @@ radio.white[checked] .wx-radio-input {
 	height: 48rpx;
 }
 
+
+.cu-btn.ssm {
+	padding: 0 40rpx;
+	font-size: 20rpx;
+	height: 58rpx;
+	width: 120rpx;
+	height: 50rpx;
+}
+
 .cu-btn.lg {
 	padding: 0 40rpx;
 	font-size: 32rpx;
@@ -3206,7 +3215,11 @@ scroll-view.cu-steps .cu-item {
 }
 
 .padding-xl {
-	padding: 50rpx;
+	padding: 80rpx;
+}
+
+.padding-xxl {
+	padding: 160rpx;
 }
 
 .padding-top-xs {
