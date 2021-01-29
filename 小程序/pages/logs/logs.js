@@ -3,13 +3,22 @@ const util = require('../../utils/util.js')
 
 Page({
   data: {
-    logs: []
+    queueSuc:false,
   },
   onLoad() {
-    this.setData({
-      logs: (wx.getStorageSync('logs') || []).map(log => {
-        return util.formatTime(new Date(log))
-      })
+    this.setData(
+      {
+        queueSuc:true,
+      }
+    )
+  },
+  queuecancel: function(){
+    wx.navigateBack();
+  },
+  queuegoto: function(){
+    wx.navigateTo({
+      url: '../logs/logs'
     })
   }
+
 })

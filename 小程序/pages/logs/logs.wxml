@@ -14,3 +14,7 @@
     <image src="https://image.weilanwl.com/gif/loading-white.gif" mode="aspectFit" class="gif-white response" style="height:240rpx"></image>
   </view>
 </view>
+<view class="flex solid-bottom padding justify-center" style="position:fixed;bottom:0; width: 750rpx;" wx:if="{{queueSuc}}">
+  <button class="cu-btn line-green center round lg shadow" bindtap="queuecancel">
+          <text class="text-grey">Cancel</text></button>
+</view>

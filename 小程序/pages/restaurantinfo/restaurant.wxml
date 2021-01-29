@@ -45,7 +45,7 @@
       </view>
     </view>
   </view>
-<view class="flex solid-bottom padding justify-center" style="position:fixed;bottom:0; width: 750rpx;">
+<view class="flex solid-bottom padding justify-center" style="position:fixed;bottom:0; width: 750rpx;" wx:if="{{isOpen}}">
   <button class="cu-btn line-green center round lg shadow" bindtap="queuegoto">
           <text class="text-grey">Join This Queue</text></button>
 </view>
