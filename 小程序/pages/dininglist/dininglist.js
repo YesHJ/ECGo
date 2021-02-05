@@ -17,6 +17,7 @@ Page({
     wx.navigateTo({
       url: '../restaurantinfo/restaurant?'+objdata
     })
+    wx.setStorageSync('rant', a.name)
   },
 
 // ListTouch触摸开始

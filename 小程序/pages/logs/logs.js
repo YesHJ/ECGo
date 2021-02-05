@@ -12,6 +12,7 @@ Page({
       }
     )
   },
+
   queuecancel: function(){
     wx.navigateBack();
   },

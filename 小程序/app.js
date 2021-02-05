@@ -2,10 +2,17 @@
 App({
   onLaunch() {
     // 展示本地存储能力
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
+    let rant = wx.getStorageSync('rant')
+    console.log("rant = " + rant)
+    if(rant==null || rant.length == 0)
+    {
+      console.log(11111)
+      rant = "Please choose the restaurant"
+    }else{
+      console.log(222222)
+    } 
+    this.globalData.currentRestaurant = rant
+    wx.setStorageSync('rant', rant)  
     // 登录
     wx.login({
       success: res => {
@@ -32,9 +39,25 @@ App({
         }
       }
     })
+    //获取服务器餐厅数据
+    this.getMerchantInfo()
   },
+  getMerchantInfo: function () {
+    wx.request({
+      url: this.globalData.host + '/searchMerchant/',
+      method: 'GET',
+      success: function (data) {
+        console.log('data = '+data)
+      }
+    })
+  },
+
   globalData: {
     userInfo: null,
+    host: 'https://www.snail2651.com',
+    currentRestaurant: "Please choose the restaurant",
+    QueueReadymoudle: "lKl7yagNE8783YzK7_NnAI6sSSK3ECgBQxCeolD9ISw",
+    QueueCanclmoudle: "XV3X3kjwxtsZXce-0pa7zggvyKQMWjBs5iWHygSjPsQ",
     resInfo: [{
       "id": 0,
       "name": "AAAA",

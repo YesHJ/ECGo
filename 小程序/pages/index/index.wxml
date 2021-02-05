@@ -19,15 +19,9 @@
   <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> WeChat Login </button>
     <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="text-gray">{{motto}}</text>
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="text-gray">{{motto}}</text>
     </block>
   </view>
 </view>
-<view class="bg-white padding margin-top-xs" style="position:fixed;bottom:0; width: 750rpx;">
-  <view class="cu-steps">
-    <view class="cu-item {{index>basics?'':'text-orange'}}" wx:for="{{basicsList}}" wx:key>
-      <text class="cuIcon-{{index>basics?'title':item.icon}}"></text> {{item.name}}
-    </view>
-  </view>
-</view>
+
