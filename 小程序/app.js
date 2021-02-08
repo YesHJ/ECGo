@@ -56,6 +56,7 @@ App({
     userInfo: null,
     host: 'https://www.snail2651.com',
     currentRestaurant: "Please choose the restaurant",
+    userNumber: 1,
     QueueReadymoudle: "lKl7yagNE8783YzK7_NnAI6sSSK3ECgBQxCeolD9ISw",
     QueueCanclmoudle: "XV3X3kjwxtsZXce-0pa7zggvyKQMWjBs5iWHygSjPsQ",
     resInfo: [{

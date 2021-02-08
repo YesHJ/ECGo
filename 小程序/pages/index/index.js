@@ -53,25 +53,29 @@ Page({
       url: 'http://www.cygia.com/upload/userfiles/images/teamlab/F3FD3FCE29883CBBF8DAA7D66FF79F5C.jpg'
     }],
   },
+  // 请求网络
+  getQueueInfoAndGoto: function(){
+ 
+  },
   // 头像点击事件
   bindViewTap() {
     // 这里是获取下发权限地方，根据官方文档，可以根据  wx.getSetting() 的 withSubscriptions   这个参数获取用户是否打开订阅消息总开关。后面我们需要获取用户是否同意总是同意消息推送。所以这里要给它设置为true 。
+    
+    var CanGoTo = false
     wx.getSetting({
       withSubscriptions: true,   //  这里设置为true,下面才会返回mainSwitch
       success: function(res){   
-      
         // 调起授权界面弹窗
         if (res.subscriptionsSetting.mainSwitch) {  // 用户打开了订阅消息总开关
           if (res.subscriptionsSetting.itemSettings != null) {   // 用户同意总是保持是否推送消息的选择, 这里表示以后不会再拉起推送消息的授权
             let moIdState = res.subscriptionsSetting.itemSettings[app.globalData.QueueReadymoudle,app.globalData.QueueCanclmoudle];  // 用户同意的消息模板id
-            if(moIdState === 'accept'){   
-              console.log('接受了消息推送');
+            if(moIdState === 'accept'){  
               wx.navigateTo({
                 url: '../logs/logs'
               })
+              console.log('接受了消息推送');
             }else if(moIdState === 'reject'){
               console.log("拒绝消息推送");
-
             }else if(moIdState === 'ban'){
               console.log("已被后台封禁");
               wx.showToast({
@@ -137,6 +141,7 @@ Page({
   //用餐人数选择
   PickerChange(e) {
     console.log(e);
+    app.globalData.userNumber = parseInt(e.detail.value) + 1
     this.setData({
       index: e.detail.value
     })
@@ -172,11 +177,11 @@ Page({
     }
   },
   getUserInfo(e) {
-    console.log(e)
+    console.log("User Info"+e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
-  }
+  },
 })
