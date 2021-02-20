@@ -30,12 +30,6 @@
         "iconPath": "image/main2.png",
         "selectedIconPath": "image/main1.png",
         "text": "Main"
-      },
-      {
-        "pagePath": "pages/history/history",
-        "iconPath": "image/history2.png",
-        "selectedIconPath": "image/history1.png",
-        "text": "History"
       }
     ]
   },
