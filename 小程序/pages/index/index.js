@@ -101,8 +101,32 @@ Page({
                         wx.navigateTo({
                           url: '../logs/logs'
                         })
-                      } else {
-                        console.log('拒绝授权')
+                      }else if(res[app.globalData.QueueReadymoudle] != 'accept'){
+                        console.log('拒绝授权 Readymoudle '+res[app.globalData.QueueReadymoudle])
+                        wx.showToast({
+                          title: 'Reject M1',//提示文字
+                          duration:1000,//显示时长
+                          mask:true,//是否显示透明蒙层，防止触摸穿透，默认：false  
+                          icon:'loading', //图标，支持"success"、"loading"  
+                          success:function(){ },//接口调用成功
+                          fail: function () { },  //接口调用失败的回调函数  
+                          complete: function () { } //接口调用结束的回调函数  
+                       })
+                      } else if(res[app.globalData.QueueCanclmoudle] != 'accept'){
+                        console.log('拒绝授权 Cancel moudle '+res[app.globalData.QueueCanclmoudle])
+                        wx.showToast({
+                          title: 'Reject M2',//提示文字
+                          duration:1000,//显示时长
+                          mask:true,//是否显示透明蒙层，防止触摸穿透，默认：false  
+                          icon:'loading', //图标，支持"success"、"loading"  
+                          success:function(){ },//接口调用成功
+                          fail: function () { },  //接口调用失败的回调函数  
+                          complete: function () { } //接口调用结束的回调函数  
+                       })
+                      } 
+                      else {
+                        console.log('拒绝授权 Readymoudle '+res[app.globalData.QueueReadymoudle])
+                        console.log('拒绝授权 Readymoudle '+res[app.globalData.QueueCanclmoudle])
                         wx.showToast({
                           title: 'User Canceled',//提示文字
                           duration:1000,//显示时长
@@ -175,6 +199,13 @@ Page({
         }
       })
     }
+  },
+  onShow: function () {
+    this.setData({
+      userInfo: app.globalData.userInfo,
+      hasUserInfo: true,
+      motto: app.globalData.currentRestaurant,
+    })
   },
   getUserInfo(e) {
     console.log("User Info"+e)

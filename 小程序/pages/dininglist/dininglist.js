@@ -18,6 +18,8 @@ Page({
       url: '../restaurantinfo/restaurant?'+objdata
     })
     wx.setStorageSync('rant', a.name)
+    console.log("Name = ",a.name)
+    app.globalData.currentRestaurant = a.name
   },
 
 // ListTouch触摸开始

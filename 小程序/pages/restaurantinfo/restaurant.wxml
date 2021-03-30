@@ -27,9 +27,16 @@
         <text class="text-grey">Tag</text>
       </view>
       <view class="action">
-        <view class="cu-tag round bg-orange light">音乐</view>
-        <view class="cu-tag round bg-olive light">电影</view>
-        <view class="cu-tag round bg-blue light">旅行</view>
+        <view class="cu-tag round bg-orange light">Hot</view>
+      </view>
+    </view>
+    <view class="cu-item">
+      <view class="content">
+        <text class="cuIcon-emojiflashfill text-pink"></text>
+        <text class="text-grey">Wait Queue</text>
+      </view>
+      <view class="action">
+        <text class="text-grey text-sm">{{inQueue}}</text>
       </view>
     </view>
     <view class="cu-item">

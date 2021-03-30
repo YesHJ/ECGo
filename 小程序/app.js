@@ -6,7 +6,6 @@ App({
     console.log("rant = " + rant)
     if(rant==null || rant.length == 0)
     {
-      console.log(11111)
       rant = "Please choose the restaurant"
     }else{
       console.log(222222)
@@ -49,6 +48,7 @@ App({
     this.getMerchantInfo()
   },
   getMerchantInfo: function () {
+    let self = this
     wx.request({
       url: this.globalData.host + '/searchMerchant/',
       method: 'GET',
@@ -56,7 +56,41 @@ App({
         console.log('data = '+data.data.message)
         console.log('Merchant data = '+data.data.data)
         if(data.data.data != ''){
-          console.log(111111)
+          let pic = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fbjcache.leju.com%2Fzxjiaju%2Fzx_pic%2F20180509%2Fa0%2F67%2Fa670d844ebf06b368575a111aee6397c.jpeg&refer=http%3A%2F%2Fbjcache.leju.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1613294165&t=4bf09f335633fabe1ffee855883a4b7a"
+          let list = data.data.data
+          let qualities = []
+          for(var i = 0;i < list.length;i++)
+          {
+            let item = data.data.data[i]
+            console.log(item)
+            let status = 'Closed'
+            let location = 'No address is record'
+            let phone = 'No Number'
+            let tag = ["Environment","Hot"]
+            self.getMercharDetail(item.name)
+            if(item.enable == true)
+            {
+              status = 'Opened'
+            }
+            if(item.location != '' && item.location != null)
+            {
+              location = item.location
+            }
+            if(item.phone != '' && item.phone != null)
+            {
+              phone = item.phone
+            }
+            qualities.push({
+              id: i,
+              name: item.name,
+              location: location,
+              phone: phone,
+              status: status,
+              pic: pic,
+              tag:tag,
+            })
+          }
+          self.globalData.resInfo = qualities
         }else
         {
           wx.showToast({
@@ -69,12 +103,41 @@ App({
       }
     })
   },
+  getMercharDetail: function (merchart) {
+    let self = this
+    wx.request({
+      url: this.globalData.host + '/commitConfig',
+      method: 'GET',
+      header: { 
+        "Content-Type": "application/x-www-form-urlencoded"
+       }, 
+      data: {
+        merchant_name : merchart,
+      },
+      success: function (data) {
+        self.updateMerchantInfo(merchart,data.data.merchant_phone,data.data.merchant_position)
+      }
+    })
+  },
+  updateMerchantInfo: function (merchant,phone,position) {
+    for(var i = 0;i < this.globalData.resInfo.length;i++)
+    {
+      if(this.globalData.resInfo[i].name == merchant)
+      {
+        this.globalData.resInfo[i].phone = phone
+        this.globalData.resInfo[i].location = position
+        console.log('position data = '+this.globalData.resInfo[i].location)
+        console.log('phone data = '+this.globalData.resInfo[i].phone)
+      }
+    }
+    console.log(this.globalData.resInfo)
+  },
 
   globalData: {
     userInfo: null,
     openCode: null,
     host: 'https://www.snail2651.com',
-    currentRestaurant: "Please choose the restaurant",
+    currentRestaurant: "Please Choose the restaurant",
     userNumber: 1,
     appID: 'wx9dc3a069c71ba1af',
     key: '46c445a802736b5a068f29bc787d5160',

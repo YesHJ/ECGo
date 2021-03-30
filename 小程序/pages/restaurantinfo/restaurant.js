@@ -13,6 +13,7 @@ Page({
     pic:"",
     tag:[],
     isOpen:false,
+    inQueue:0,
   },
 
   /**
@@ -53,7 +54,33 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let self = this
+    wx.request({
+      url: app.globalData.host + '/getQueue',
+      method: 'GET',
+      header: { 
+        "Content-Type": "application/x-www-form-urlencoded"
+       }, 
+      data: {
+        merchant_name : this.data.name,
+      },
+      success: function (data) {
+        console.log('Get Queue code = '+data.data.code)
+        let total = 0
+        if(data.data.data != null)
+        {
+          for(var i = 0;i < data.data.data.length;i++)
+          {
+            let a = data.data.data[i].total
+            total = a + total
+          }
+          console.log('total = '+total)
+        }
+        self.setData({
+          inQueue : total
+        })
+      }
+    })
   },
 
   /**
@@ -137,7 +164,30 @@ Page({
                         wx.navigateTo({
                           url: '../logs/logs'
                         })
-                      } else {
+                      }else if(res[app.globalData.QueueReadymoudle] != 'accept'){
+                        console.log('拒绝授权 Readymoudle '+res[app.globalData.QueueReadymoudle])
+                        wx.showToast({
+                          title: 'Reject M1',//提示文字
+                          duration:1000,//显示时长
+                          mask:true,//是否显示透明蒙层，防止触摸穿透，默认：false  
+                          icon:'loading', //图标，支持"success"、"loading"  
+                          success:function(){ },//接口调用成功
+                          fail: function () { },  //接口调用失败的回调函数  
+                          complete: function () { } //接口调用结束的回调函数  
+                       })
+                      } else if(res[app.globalData.QueueCanclmoudle] != 'accept'){
+                        console.log('拒绝授权 Cancel moudle '+res[app.globalData.QueueCanclmoudle])
+                        wx.showToast({
+                          title: 'Reject M2',//提示文字
+                          duration:1000,//显示时长
+                          mask:true,//是否显示透明蒙层，防止触摸穿透，默认：false  
+                          icon:'loading', //图标，支持"success"、"loading"  
+                          success:function(){ },//接口调用成功
+                          fail: function () { },  //接口调用失败的回调函数  
+                          complete: function () { } //接口调用结束的回调函数  
+                       })
+                      }  
+                      else {
                         console.log('拒绝授权')
                         wx.showToast({
                           title: 'User Canceled',//提示文字
