@@ -31,7 +31,7 @@ Page({
     {
       uistatus = false
     }
-
+    
     this.setData({
       name: opt.name,
       location: opt.location,
@@ -55,6 +55,7 @@ Page({
    */
   onShow: function () {
     let self = this
+    self.sleep(100)
     wx.request({
       url: app.globalData.host + '/getQueue',
       method: 'GET',
@@ -62,11 +63,11 @@ Page({
         "Content-Type": "application/x-www-form-urlencoded"
        }, 
       data: {
-        merchant_name : this.data.name,
+        merchant_name : self.data.name,
       },
       success: function (data) {
-        console.log('Get Queue code = '+data.data.code)
         let total = 0
+        console.log('get queue code = '+data.data.code +' '+ self.data.name)
         if(data.data.data != null)
         {
           for(var i = 0;i < data.data.data.length;i++)
@@ -79,6 +80,7 @@ Page({
         self.setData({
           inQueue : total
         })
+        console.log(11111111)
       }
     })
   },
@@ -117,7 +119,15 @@ Page({
   onShareAppMessage: function () {
 
   },
-
+  sleep:function(numberMillis) {
+    var now = new Date();
+    var exitTime = now.getTime() + numberMillis;
+    while(true) {
+      now = new Date();
+      if (now.getTime() > exitTime)
+        return;
+    }
+  },
   onCall: function(){
     wx.makePhoneCall({
       phoneNumber: this.data.phone,

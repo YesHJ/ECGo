@@ -14,10 +14,9 @@ Page({
   },
   onLoad(options) {
     console.log(options)
-    console.log('User Info'+app.globalData.userInfo)
     let self = this
-    let tempName = app.globalData.userInfo.nickName
-    let userName = this.encodeUTF8(tempName)
+    let userName = app.globalData.userInfo.nickName
+    //let userName = 'sss右时左逝';//this.encodeUTF8(tempName)
     //TODO 用户名为中文的时候有Bug
     let userNum = app.globalData.userNumber
     let merchart = app.globalData.currentRestaurant
@@ -44,8 +43,7 @@ Page({
         user_name : userName,
       },
       success: function (data) {
-        console.log('refresh = '+data.data.index)
-        userName = self.decodeUTF8(userName)
+        console.log('refresh index = '+data.data.index)
         if(data.data.code == -1) //只有没有排队的时候才进行请求
         {
           wx.request({
@@ -108,7 +106,7 @@ Page({
         }
         else
         {
-          console.log(data.data.code+'no need live_up for '+data.data.message)
+          console.log(data.data.code+' no need live_up for '+data.data.message)
           //TODO 如果用户已经排队，应该显示队列信息，当前是Undefined信息
           self.setData({
             cuMerchart : merchart,

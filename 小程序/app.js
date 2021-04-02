@@ -16,7 +16,7 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        console.log('code ='+res.code); // 先login得到code
+        console.log('login code ='+res.code); // 先login得到code
         if (res.code) {
         // 将url中的appid和secret换成自己的  （可以在开发平台查看）
           this.globalData.openCode = res.code
@@ -44,7 +44,11 @@ App({
       }
     })
     //获取服务器餐厅数据
-    console.log('Try to connect the server')
+    //console.log('Try to connect the server')
+    //this.getMerchantInfo()
+  },
+  onShow: function () {
+    console.log('Show APP')
     this.getMerchantInfo()
   },
   getMerchantInfo: function () {

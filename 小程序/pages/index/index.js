@@ -39,18 +39,6 @@ Page({
       id: 3,
       type: 'image',
       url: 'http://www.cygia.com/upload/userfiles/images/teamlab/10AC052BCB1FBDB3B2902340CC27789F.jpg'
-    }, {
-      id: 4,
-      type: 'image',
-      url: 'http://www.cygia.com/upload/userfiles/images/teamlab/D5DBAA56D821A8EF9CDAB8A0D8EA88D1.jpg'
-    }, {
-      id: 5,
-      type: 'image',
-      url: 'http://www.cygia.com/upload/userfiles/images/teamlab/6C8653959F7893338B24EACFE964317D.jpg'
-    }, {
-      id: 6,
-      type: 'image',
-      url: 'http://www.cygia.com/upload/userfiles/images/teamlab/F3FD3FCE29883CBBF8DAA7D66FF79F5C.jpg'
     }],
   },
   // 请求网络
@@ -180,6 +168,7 @@ Page({
     } else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
+      console.log("User Info2222222222")
       app.userInfoReadyCallback = res => {
         this.setData({
           userInfo: res.userInfo,
@@ -189,8 +178,11 @@ Page({
       }
     } else {
       // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
+      console.log("User Info"+res.userInfo)
+      wx.getUserProfile({
+        desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
         success: res => {
+          console.log("User Info"+res.userInfo)
           app.globalData.userInfo = res.userInfo
           this.setData({
             userInfo: res.userInfo,
@@ -213,6 +205,29 @@ Page({
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
+    })
+  },
+  getUserProfile(e) {
+    // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
+    // 开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
+    wx.getUserProfile({
+      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true
+        })
+      }
+    })
+  },
+  showModal(e) {
+    this.setData({
+      modalName: e.currentTarget.dataset.target
+    })
+  },
+  hideModal(e) {
+    this.setData({
+      modalName: null
     })
   },
 })

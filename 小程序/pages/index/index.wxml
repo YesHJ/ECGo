@@ -16,12 +16,23 @@
 		</picker>
 	</view>
 <view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> WeChat Login </button>
-    <block wx:else>
-        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-        <text class="text-gray">{{motto}}</text>
-    </block>
+  <view class="cu-avatar xxl round shadow margin-top bg-red" bindtap="showModal" data-target="Modal">
+    <text class="avatar-text">Queue</text>
   </view>
+  <view class="padding-sm text-red text-shadow text-center">{{motto}}</view>
+  <view class="cu-modal {{modalName=='Modal'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">Warnning</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <view class="padding-xl">
+      PLEASE CHOOSE A RESTURANT
+    </view>
+  </view>
+</view>
+ 
 </view>
 
