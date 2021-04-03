@@ -7,6 +7,7 @@ Page({
     motto: 'Please choose the restaurant',
     userInfo: {},
     hasUserInfo: false,
+    canIUseGetUserProfile: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     basicsList: [{
       icon: 'usefullfill',
@@ -48,9 +49,7 @@ Page({
   // 头像点击事件
   bindViewTap() {
     // 这里是获取下发权限地方，根据官方文档，可以根据  wx.getSetting() 的 withSubscriptions   这个参数获取用户是否打开订阅消息总开关。后面我们需要获取用户是否同意总是同意消息推送。所以这里要给它设置为true 。
-    
-    var CanGoTo = false
-    wx.getSetting({
+        wx.getSetting({
       withSubscriptions: true,   //  这里设置为true,下面才会返回mainSwitch
       success: function(res){   
         // 调起授权界面弹窗
@@ -159,48 +158,26 @@ Page({
     })
   },
   onLoad() {
-    if (app.globalData.userInfo) {
+    if (wx.getUserProfile) {
+      this.setData({
+        canIUseGetUserProfile: true
+      })
+    }
+  },
+  onShow: function () {
+    let userInfoByLocal = wx.getStorageSync('userinfo')
+    if (userInfoByLocal) {
+      console.log('Has user info,so no need to get userinfo = '+userInfoByLocal.nickName)
+      app.globalData.userInfo = userInfoByLocal
       this.setData({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true,
         motto: app.globalData.currentRestaurant,
       })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      console.log("User Info2222222222")
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true,
-          motto: app.globalData.currentRestaurant,
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      console.log("User Info"+res.userInfo)
-      wx.getUserProfile({
-        desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-        success: res => {
-          console.log("User Info"+res.userInfo)
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-  },
-  onShow: function () {
-    this.setData({
-      userInfo: app.globalData.userInfo,
-      hasUserInfo: true,
-      motto: app.globalData.currentRestaurant,
-    })
+    } 
   },
   getUserInfo(e) {
-    console.log("User Info"+e)
+    console.log("Use Old Info "+e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
@@ -213,6 +190,9 @@ Page({
     wx.getUserProfile({
       desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (res) => {
+        wx.setStorageSync('userinfo', res.userInfo)
+        app.globalData.userInfo = res.userInfo
+        console.log('userInfo 2222 = '+res.userInfo)
         this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true
@@ -221,9 +201,22 @@ Page({
     })
   },
   showModal(e) {
-    this.setData({
-      modalName: e.currentTarget.dataset.target
-    })
+    if(app.globalData.currentRestaurant.indexOf('Please choose')>=0)
+    {
+      this.setData({
+        modalName: e.currentTarget.dataset.target
+      })
+    }else if(!app.globalData.currentRestaurant)
+    {
+      this.setData({
+        modalName: e.currentTarget.dataset.target
+      })
+    }
+    else
+    {
+      console.log('cr = '+app.globalData.currentRestaurant.indexOf('Please choose'))
+      this.bindViewTap()
+    }
   },
   hideModal(e) {
     this.setData({

@@ -11,11 +11,21 @@ Page({
     queueSuc:false,
     queueMsg:'ERR',
     UserInfoForQueue: 'FAIL TO JOIN',
+    loginTime:'',
   },
   onLoad(options) {
     console.log(options)
     let self = this
-    let userName = app.globalData.userInfo.nickName
+    var myDate = new Date();
+    let timestr = myDate.toLocaleTimeString(); 
+    let lasttime = wx.getStorageSync('lasttime')
+    console.log('time1 = ' + timestr)
+    let userNameold = app.globalData.userInfo.nickName
+    let userNameNew = app.globalData.userInfo.nickName + timestr
+    if(lasttime)
+    {
+      userNameold = userNameold + lasttime
+    }
     //let userName = 'sss右时左逝';//this.encodeUTF8(tempName)
     //TODO 用户名为中文的时候有Bug
     let userNum = app.globalData.userNumber
@@ -31,7 +41,7 @@ Page({
       tableType = 'big'
       shorttype = 'B'
     }
-    console.log('merchart = '+ merchart+';userName = '+userName)
+    console.log('merchart = '+ merchart+';userName = '+userNameold)
     wx.request({
       url: app.globalData.host + '/refresh',
       method: 'GET',
@@ -40,7 +50,7 @@ Page({
        }, 
       data: {
         merchant_name : merchart,
-        user_name : userName,
+        user_name : userNameold,
       },
       success: function (data) {
         console.log('refresh index = '+data.data.index)
@@ -54,7 +64,7 @@ Page({
              }, 
             data: {
               merchant_name : merchart,
-              user_name : userName,
+              user_name : userNameNew,
               user_id : app.globalData.openCode,
               user_phone : '123456789',
               eat_number : userNum,
@@ -66,25 +76,28 @@ Page({
               console.log('index = '+data.data.index)
               console.log('user_id = '+app.globalData.openCode)
               console.log('name = '+merchart+' line_up '+data.data.message)
-              if(data.data.code<0){
+              if(data.data.code<0 || !data.data.code){
                 self.setData({
                   cuMerchart : merchart,
                   cuType : shorttype,
-                  cuUser : userName,
+                  cuUser : userNameNew,
                   cuIndex : 0,
                   queueSuc : false,
-                  queueMsg:'ERR',
-                  UserInfoForQueue: userName+' @ '+merchart+ ' err = ' +data.data.message,
+                  queueMsg:'ERR2',
+                  UserInfoForQueue: userNameNew+' @ '+merchart+ ' err = ' +data.data.message,
                 })
               }else{
+                wx.setStorageSync('lasttime', timestr)
+                console.log('set login time '+timestr)
                 self.setData({
                   cuMerchart : merchart,
                   cuType : shorttype,
-                  cuUser : userName,
+                  cuUser : userNameNew,
                   cuIndex : data.data.index,
                   queueSuc : true,
                   queueMsg:shorttype+data.data.index,
-                  UserInfoForQueue: userName+' @ '+merchart+' USER NUMBER = '+userNum,
+                  UserInfoForQueue: userNameNew+' @ '+merchart+' USER NUMBER = '+userNum,
+                  loginTime : lasttime,
                 })
               }
             },
@@ -102,7 +115,19 @@ Page({
           })
         }else if(data.data.code == -2){
           console.log('no need live_up for '+data.data.message)
-          
+        }
+        else if(!data.data.code){
+          console.log('refresh Error '+data.data.message)
+          console.log('refresh Error data = '+JSON.stringify(data))
+          self.setData({
+            cuMerchart : merchart,
+            cuType : shorttype,
+            cuUser : userNameNew,
+            cuIndex : 0,
+            queueSuc : false,
+            queueMsg:'ERR1',
+            UserInfoForQueue: userNameNew+' @ '+merchart+ ' err = ' +data.data.message,
+          })
         }
         else
         {
@@ -111,11 +136,11 @@ Page({
           self.setData({
             cuMerchart : merchart,
             cuType : shorttype,
-            cuUser : userName,
+            cuUser : userNameNew,
             cuIndex : data.data.index,
             queueSuc : true,
             queueMsg : shorttype+data.data.index,
-            UserInfoForQueue: userName+' @ '+merchart+' USER NUMBER = '+userNum,
+            UserInfoForQueue: userNameNew+' @ '+merchart+' USER NUMBER = '+userNum,
           })
         }
       }
@@ -128,7 +153,7 @@ Page({
   queuecancel: function(){
     let self = this
     wx.request({
-      url: app.globalData.host + '/passNum',
+      url: app.globalData.host + '/cancel/',
       method: 'GET',
       header: { 
         "Content-Type": "application/x-www-form-urlencoded"

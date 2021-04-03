@@ -24,28 +24,6 @@ App({
       }
     })
     // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
-            }
-          })
-        }
-      }
-    })
-    //获取服务器餐厅数据
-    //console.log('Try to connect the server')
-    //this.getMerchantInfo()
   },
   onShow: function () {
     console.log('Show APP')
@@ -142,6 +120,7 @@ App({
     openCode: null,
     host: 'https://www.snail2651.com',
     currentRestaurant: "Please Choose the restaurant",
+    lastTime: "",
     userNumber: 1,
     appID: 'wx9dc3a069c71ba1af',
     key: '46c445a802736b5a068f29bc787d5160',

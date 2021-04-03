@@ -55,9 +55,9 @@ Page({
    */
   onShow: function () {
     let self = this
-    self.sleep(100)
+    //self.sleep(100)
     wx.request({
-      url: app.globalData.host + '/getQueue',
+      url: app.globalData.host + '/getQueue/',
       method: 'GET',
       header: { 
         "Content-Type": "application/x-www-form-urlencoded"
@@ -67,7 +67,11 @@ Page({
       },
       success: function (data) {
         let total = 0
+        console.log('get queue data = '+app.globalData.host)
         console.log('get queue code = '+data.data.code +' '+ self.data.name)
+        console.log('get queue data = '+data.data)
+        console.log('get queue data = '+JSON.stringify(data))
+
         if(data.data.data != null)
         {
           for(var i = 0;i < data.data.data.length;i++)
@@ -81,6 +85,9 @@ Page({
           inQueue : total
         })
         console.log(11111111)
+      },
+      fail: function (res) {
+        console.log('指令调用失败'+res.errMsg)
       }
     })
   },
@@ -135,6 +142,8 @@ Page({
   },
   queuegoto() {
     // 这里是获取下发权限地方，根据官方文档，可以根据  wx.getSetting() 的 withSubscriptions   这个参数获取用户是否打开订阅消息总开关。后面我们需要获取用户是否同意总是同意消息推送。所以这里要给它设置为true 。
+    if(app.globalData.userInfo)
+    {
     wx.getSetting({
       withSubscriptions: true,   //  这里设置为true,下面才会返回mainSwitch
       success: function(res){   
@@ -226,6 +235,17 @@ Page({
       fail: function(error){
         console.log(error);
       },
-    })
+    })}else
+    {
+      wx.showToast({
+        title: 'No Login',//提示文字
+        duration:1000,//显示时长
+        mask:true,//是否显示透明蒙层，防止触摸穿透，默认：false  
+        icon:'loading', //图标，支持"success"、"loading"  
+        success:function(){ },//接口调用成功
+        fail: function () { },  //接口调用失败的回调函数  
+        complete: function () { } //接口调用结束的回调函数  
+     })
+    }
   },
 })

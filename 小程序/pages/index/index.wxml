@@ -16,23 +16,28 @@
 		</picker>
 	</view>
 <view class="container">
-  <view class="cu-avatar xxl round shadow margin-top bg-red" bindtap="showModal" data-target="Modal">
-    <text class="avatar-text">Queue</text>
-  </view>
-  <view class="padding-sm text-red text-shadow text-center">{{motto}}</view>
-  <view class="cu-modal {{modalName=='Modal'?'show':''}}">
-  <view class="cu-dialog">
-    <view class="cu-bar bg-white justify-end">
-      <view class="content">Warnning</view>
-      <view class="action" bindtap="hideModal">
+  <block wx:if="{{!hasUserInfo}}">
+      <button class="cu-btn line-red lg round shadow" wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> WeChat Login </button>
+      <button class="cu-btn line-red lg round shadow" wx:else open-type="getUserInfo" bindgetuserinfo="getUserInfo"> WeChat Login </button>
+  </block>
+  <block wx:else>
+    <view class="cu-avatar xxl round shadow margin-top bg-red" bindtap="showModal" data-target="Modal">
+        <text class="avatar-text">Queue</text>
+    </view>
+    <view class="padding-sm text-red text-shadow text-center">{{motto}}</view>
+    <view class="cu-modal {{modalName=='Modal'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">Warnning</view>
+        <view class="action" bindtap="hideModal">
         <text class="cuIcon-close text-red"></text>
       </view>
     </view>
     <view class="padding-xl">
       PLEASE CHOOSE A RESTURANT
     </view>
-  </view>
-</view>
- 
+    </view>
+    </view>
+  </block>
 </view>
 
