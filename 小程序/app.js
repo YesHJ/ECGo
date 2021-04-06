@@ -32,7 +32,7 @@ App({
   getMerchantInfo: function () {
     let self = this
     wx.request({
-      url: this.globalData.host + '/searchMerchant/',
+      url: this.globalData.host + '/searchMerchant',
       method: 'GET',
       success: function (data) {
         console.log('data = '+data.data.message)

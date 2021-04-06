@@ -20,12 +20,12 @@ Page({
     let timestr = myDate.toLocaleTimeString(); 
     let lasttime = wx.getStorageSync('lasttime')
     console.log('time1 = ' + timestr)
-    let userNameold = app.globalData.userInfo.nickName
-    let userNameNew = app.globalData.userInfo.nickName + timestr
-    if(lasttime)
-    {
-      userNameold = userNameold + lasttime
-    }
+    let userName = app.globalData.userInfo.nickName
+    //let userNameNew = app.globalData.userInfo.nickName + timestr
+    //if(lasttime)
+    //{
+      //userNameold = userNameold + lasttime
+    //}
     //let userName = 'sss右时左逝';//this.encodeUTF8(tempName)
     //TODO 用户名为中文的时候有Bug
     let userNum = app.globalData.userNumber
@@ -41,7 +41,7 @@ Page({
       tableType = 'big'
       shorttype = 'B'
     }
-    console.log('merchart = '+ merchart+';userName = '+userNameold)
+    console.log('merchart = '+ merchart+';userName = '+userName)
     wx.request({
       url: app.globalData.host + '/refresh',
       method: 'GET',
@@ -50,7 +50,7 @@ Page({
        }, 
       data: {
         merchant_name : merchart,
-        user_name : userNameold,
+        user_name : userName,
       },
       success: function (data) {
         console.log('refresh index = '+data.data.index)
@@ -64,7 +64,7 @@ Page({
              }, 
             data: {
               merchant_name : merchart,
-              user_name : userNameNew,
+              user_name : userName,
               user_id : app.globalData.openCode,
               user_phone : '123456789',
               eat_number : userNum,
@@ -76,15 +76,15 @@ Page({
               console.log('index = '+data.data.index)
               console.log('user_id = '+app.globalData.openCode)
               console.log('name = '+merchart+' line_up '+data.data.message)
-              if(data.data.code<0 || !data.data.code){
+              if(data.data.code<0 || data.data.code==null){
                 self.setData({
                   cuMerchart : merchart,
                   cuType : shorttype,
-                  cuUser : userNameNew,
+                  cuUser : userName,
                   cuIndex : 0,
                   queueSuc : false,
                   queueMsg:'ERR2',
-                  UserInfoForQueue: userNameNew+' @ '+merchart+ ' err = ' +data.data.message,
+                  UserInfoForQueue: userName+' @ '+merchart+ ' err = ' +data.data.message,
                 })
               }else{
                 wx.setStorageSync('lasttime', timestr)
@@ -92,11 +92,11 @@ Page({
                 self.setData({
                   cuMerchart : merchart,
                   cuType : shorttype,
-                  cuUser : userNameNew,
+                  cuUser : userName,
                   cuIndex : data.data.index,
                   queueSuc : true,
                   queueMsg:shorttype+data.data.index,
-                  UserInfoForQueue: userNameNew+' @ '+merchart+' USER NUMBER = '+userNum,
+                  UserInfoForQueue: userName+' @ '+merchart+' NUMBER = '+userNum+' @ '+timestr,
                   loginTime : lasttime,
                 })
               }
@@ -116,31 +116,31 @@ Page({
         }else if(data.data.code == -2){
           console.log('no need live_up for '+data.data.message)
         }
-        else if(!data.data.code){
+        else if(data.data.code==null){
           console.log('refresh Error '+data.data.message)
           console.log('refresh Error data = '+JSON.stringify(data))
           self.setData({
             cuMerchart : merchart,
             cuType : shorttype,
-            cuUser : userNameNew,
+            cuUser : userName,
             cuIndex : 0,
             queueSuc : false,
             queueMsg:'ERR1',
-            UserInfoForQueue: userNameNew+' @ '+merchart+ ' err = ' +data.data.message,
+            UserInfoForQueue: userName+' @ '+merchart+ ' err = ' +data.data.message,
           })
         }
         else
         {
-          console.log(data.data.code+' no need live_up for '+data.data.message)
+          console.log(data.data.code+' no need live_up for '+data.data.message+' @ '+lasttime)
           //TODO 如果用户已经排队，应该显示队列信息，当前是Undefined信息
           self.setData({
             cuMerchart : merchart,
             cuType : shorttype,
-            cuUser : userNameNew,
+            cuUser : userName,
             cuIndex : data.data.index,
             queueSuc : true,
             queueMsg : shorttype+data.data.index,
-            UserInfoForQueue: userNameNew+' @ '+merchart+' USER NUMBER = '+userNum,
+            UserInfoForQueue: userName+' @ '+merchart+' USER NUMBER = '+userNum,
           })
         }
       }
@@ -153,19 +153,17 @@ Page({
   queuecancel: function(){
     let self = this
     wx.request({
-      url: app.globalData.host + '/cancel/',
+      url: app.globalData.host + '/cancel',
       method: 'GET',
       header: { 
         "Content-Type": "application/x-www-form-urlencoded"
        }, 
       data: {
         merchant_name : self.data.cuMerchart,
-        table_type : self.data.cuType,
-        table_index : self.data.cuIndex,
-        user : self.data.cuUser,
+        user_name : self.data.cuUser,
       },
       success: function (data) {
-        console.log('PASS Num '+data.data.message)
+        console.log('Cancel Queue '+data.data.message+' merchant = '+self.data.cuMerchart +' User = '+self.data.cuUser)
         wx.navigateBack();
       },
       fail: function(){

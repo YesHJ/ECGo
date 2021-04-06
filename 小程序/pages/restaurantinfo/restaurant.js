@@ -57,7 +57,7 @@ Page({
     let self = this
     //self.sleep(100)
     wx.request({
-      url: app.globalData.host + '/getQueue/',
+      url: app.globalData.host + '/getQueue',
       method: 'GET',
       header: { 
         "Content-Type": "application/x-www-form-urlencoded"
