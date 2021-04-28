@@ -81,9 +81,9 @@ Page({
               success: function (ress) {
                 if (ress.confirm) {  
                   wx.requestSubscribeMessage({   // 调起消息订阅界面
-                    tmplIds: [app.globalData.QueueReadymoudle,app.globalData.QueueCanclmoudle],
+                    tmplIds: [app.globalData.QueueReadymoudle,app.globalData.QueueCanclmoudle,app.globalData.QueueBeforemoudle],
                     success (res) { 
-                      if (res[app.globalData.QueueReadymoudle] === 'accept' & res[app.globalData.QueueCanclmoudle] === 'accept' ) {
+                      if (res[app.globalData.QueueReadymoudle] === 'accept' & res[app.globalData.QueueCanclmoudle] === 'accept'&res[app.globalData.QueueBeforemoudle] === 'accept' ) {
                         console.log('用户同意授权')
                         wx.navigateTo({
                           url: '../logs/logs'
@@ -114,6 +114,7 @@ Page({
                       else {
                         console.log('拒绝授权 Readymoudle '+res[app.globalData.QueueReadymoudle])
                         console.log('拒绝授权 Readymoudle '+res[app.globalData.QueueCanclmoudle])
+                        console.log('拒绝授权 Readymoudle '+res[app.globalData.QueueBeforemoudle])
                         wx.showToast({
                           title: 'User Canceled',//提示文字
                           duration:1000,//显示时长
